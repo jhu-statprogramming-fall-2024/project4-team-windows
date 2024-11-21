@@ -1,0 +1,46 @@
+---
+title: "data_download"
+format: html
+editor: visual
+---
+
+## Downloading the Data
+
+```{r}
+library(httr)
+library(purrr)
+
+#create location to save the data files
+storm_data <- "storm_events_csvs"
+if(!dir.exists(storm_data)){
+  dir.create(storm_data)
+}
+
+#write a function to download csv file
+download_csv <- function(url) {
+  tryCatch({
+    filename <- basename(url)
+    destfile <- file.path(storm_data, filename)
+    response <- GET(url, write_disk(destfile, overwrite = TRUE))
+    if (status_code(response) == 200) {
+      message("Downloaded: ", filename)
+    } else {
+      message("Failed to download: ", url)
+    }
+  }, error = function(e) {
+    message("Error downloading ", url, ": ", e$message)
+  })
+}
+
+#define the base url site and specific files we want
+base_url <- "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+files_to_download <- c(
+  "StormEvents_details-ftp_v1.0_d2008_c20240620.csv.gz",
+  "StormEvents_details-ftp_v1.0_d2013_c20230118.csv.gz",
+  "StormEvents_details-ftp_v1.0_d2018_c20240716.csv.gz"
+)
+urls <- paste0(base_url, files_to_download)
+
+#use map from purrr to download the files
+map(urls, download_csv)
+```
