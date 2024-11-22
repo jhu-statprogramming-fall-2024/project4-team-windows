@@ -9,6 +9,8 @@ editor: visual
 ```{r}
 library(httr)
 library(purrr)
+library(R.utils)
+library(readr)
 
 #create location to save the data files
 storm_data <- "storm_events_csvs"
@@ -16,14 +18,24 @@ if(!dir.exists(storm_data)){
   dir.create(storm_data)
 }
 
-#write a function to download csv file
-download_csv <- function(url) {
+#write a function to download and unzip csv file
+download_and_unzip <- function(url) {
   tryCatch({
+    #extract proper file name
     filename <- basename(url)
     destfile <- file.path(storm_data, filename)
+    
+    #download the file
     response <- GET(url, write_disk(destfile, overwrite = TRUE))
     if (status_code(response) == 200) {
       message("Downloaded: ", filename)
+      
+      #check if the file is a .gz and unzip
+      if (grepl("\\.gz$", filename)) {
+        decompressed_file <- sub("\\.gz$", "", destfile)
+        gunzip(destfile, destname = decompressed_file, overwrite = TRUE)
+        message("Decompressed: ", decompressed_file)
+      }
     } else {
       message("Failed to download: ", url)
     }
@@ -32,7 +44,7 @@ download_csv <- function(url) {
   })
 }
 
-#define the base url site and specific files we want
+#define the base url site and specific files we want to download
 base_url <- "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
 files_to_download <- c(
   "StormEvents_details-ftp_v1.0_d2008_c20240620.csv.gz",
@@ -42,5 +54,26 @@ files_to_download <- c(
 urls <- paste0(base_url, files_to_download)
 
 #use map from purrr to download the files
-map(urls, download_csv)
+map(urls, download_and_unzip)
+
+#read csv files and make data frames
+read_csvs <- function(directory) {
+  tryCatch({
+    #list the csv files available
+    csv_files <- list.files(directory, pattern = "\\.csv$", full.names = TRUE)
+    
+    #read in files and make into data frame
+    walk(csv_files, function(file) {
+      #create variable name to make dataframe
+      data_frame_name <- make.names(gsub("\\.csv$", "", basename(file)))
+      assign(data_frame_name, read_csv(file, col_types = cols()), envir = .GlobalEnv)
+      message("Data frame created: ", data_frame_name)
+    })
+  }, error = function(e) {
+    message("Error reading CSV files: ", e$message)
+  })
+}
+
+#try read function function
+read_csvs(storm_data)
 ```
