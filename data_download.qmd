@@ -11,7 +11,14 @@ library(httr)
 library(purrr)
 library(R.utils)
 library(readr)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(stringr)
+```
 
+
+```{r}
 #create location to save the data files
 storm_data <- "storm_events_csvs"
 if(!dir.exists(storm_data)){
@@ -77,3 +84,45 @@ read_csvs <- function(directory) {
 #try read function function
 read_csvs(storm_data)
 ```
+
+
+```{r}
+eight = StormEvents_details.ftp_v1.0_d2008_c20240620
+thirteen = StormEvents_details.ftp_v1.0_d2018_c20240716
+eighteen = StormEvents_details.ftp_v1.0_d2018_c20240716
+```
+
+Data Cleaning 
+```{r}
+cleaned_eight = eight %>% 
+  filter(grepl("wind", EVENT_TYPE, ignore.case = TRUE)) %>% #filter to only wind events
+  distinct() %>% #remove duplicate rows 
+  select(-EVENT_NARRATIVE, -EPISODE_NARRATIVE, -END_RANGE, -END_AZIMUTH, -END_LOCATION, -BEGIN_RANGE, -BEGIN_AZIMUTH, -BEGIN_LOCATION, -TOR_F_SCALE, - TOR_LENGTH, -TOR_WIDTH, -TOR_OTHER_WFO, -TOR_OTHER_CZ_STATE, -TOR_OTHER_CZ_FIPS, -TOR_OTHER_CZ_NAME, -FLOOD_CAUSE, -SOURCE, -CZ_TIMEZONE, -CZ_TYPE, -WFO, -CZ_FIPS, -CZ_NAME, -STATE_FIPS, -EPISODE_ID, -END_DAY, - END_TIME, -END_YEARMONTH, -BEGIN_TIME, -BEGIN_DAY, -BEGIN_YEARMONTH, -DATA_SOURCE, -CATEGORY) %>%
+  filter(complete.cases(EVENT_TYPE, STATE, MONTH_NAME, MAGNITUDE, BEGIN_LAT)) %>%  #remove any rows that have an na in these columns
+    mutate(DAMAGE_CROPS = str_remove(DAMAGE_CROPS, "K"))  #remove K 
+
+cleaned_eight$DAMAGE_CROPS = as.numeric(cleaned_eight$DAMAGE_CROPS)
+```
+
+```{r}
+#change M values in damage property to K
+cleaned_eight$DAMAGE_PROPERTY = str_replace(cleaned_eight$DAMAGE_PROPERTY,  "(\\d+(\\.\\d+)?)M",  function(x) {
+  number = as.numeric(str_extract(x, "\\d+(\\.\\d+)?"))
+ paste0(number * 10000, ".00K") })
+
+cleaned_eight = cleaned_eight %>%
+  mutate(DAMAGE_PROPERTY = str_remove(DAMAGE_PROPERTY, "K"))
+
+cleaned_eight$DAMAGE_PROPERTY = as.numeric(cleaned_eight$DAMAGE_PROPERTY)
+
+#make all NA values 0 
+#assume values no filled out in this column range means no damage/deaths/injuries 
+cleaned_eight= cleaned_eight %>%
+  mutate_at(vars(INJURIES_DIRECT:DAMAGE_CROPS), 
+            ~ifelse (is.na(.) | . == "", 0, .))
+
+```
+
+
+
+
