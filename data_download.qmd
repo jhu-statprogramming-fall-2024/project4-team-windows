@@ -142,8 +142,6 @@ ML_eight <- cleaned_eight %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON,
 ML_thirteen <- cleaned_thirteen %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON, -BEGIN_DATE_TIME, -END_DATE_TIME)
 ML_eighteen <- cleaned_eighteen %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON, -BEGIN_DATE_TIME, -END_DATE_TIME)
 
-quantile(ML_eight$aggregate_stat[ML_eight$aggregate_stat != 0])[4]
-
 scale_aggregate <- function(aggregate_stat){
   scaled_stats <- numeric(length(aggregate_stat))
   quantiles_aggregate <- quantile(aggregate_stat[aggregate_stat != 0])
@@ -189,5 +187,32 @@ ggplot(ML_eighteen, aes(scaled_aggregate)) + geom_histogram()
 
 
 ```
+
+Create Combined Data
+```{r combineddata}
+# Combine Data
+combined_data <- rbind(cleaned_eight, cleaned_thirteen, cleaned_eighteen)
+
+# Reformat Date, Add storm time duration and change in lat/lon values
+combined_data <- combined_data %>% mutate(BEGIN_DATE_TIME = as.POSIXct(BEGIN_DATE_TIME, format = "%d-%b-%y %H:%M:%S"), END_DATE_TIME = as.POSIXct(END_DATE_TIME, format = "%d-%b-%y %H:%M:%S"), storm_time_duration = END_DATE_TIME - BEGIN_DATE_TIME, change_lon = END_LON - BEGIN_LON, change_lat = END_LAT - BEGIN_LAT)
+
+# Remove redundant columns
+combined_data <- combined_data %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON, -BEGIN_DATE_TIME, -END_DATE_TIME)
+
+# Aggregate Stat
+combined_data <- combined_data %>% mutate(aggregate_stat = (INJURIES_DIRECT - min(INJURIES_DIRECT))/diff(range(INJURIES_DIRECT)) + (INJURIES_INDIRECT - min(INJURIES_INDIRECT))/diff(range(INJURIES_INDIRECT)) + (DEATHS_DIRECT - min(DEATHS_DIRECT))/diff(range(DEATHS_DIRECT)) + (DEATHS_INDIRECT - min(DEATHS_INDIRECT))/diff(range(DEATHS_INDIRECT)) + (DAMAGE_PROPERTY - min(DAMAGE_PROPERTY))/diff(range(DAMAGE_PROPERTY)) + (DAMAGE_CROPS - min(DAMAGE_CROPS))/diff(range(DAMAGE_CROPS)))
+
+combined_data <- combined_data %>% mutate(scaled_aggregate = scale_aggregate(aggregate_stat))
+combined_data
+
+ggplot(combined_data, aes(scaled_aggregate)) + geom_histogram()
+
+
+```
+
+
+
+
+
 
 
