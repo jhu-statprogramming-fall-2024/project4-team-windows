@@ -207,6 +207,7 @@ combined_data
 
 ggplot(combined_data, aes(scaled_aggregate)) + geom_histogram()
 
+write.csv(combined_data,"ML_wind_data.csv", row.names = FALSE)
 
 ```
 
