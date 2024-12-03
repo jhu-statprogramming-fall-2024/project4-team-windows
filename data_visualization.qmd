@@ -1,0 +1,12 @@
+---
+title: "data_visualization"
+format: html
+editor: visual
+---
+
+## Import Data
+```{r}
+data <- read.csv("ML_wind_data.csv")
+data
+
+```
