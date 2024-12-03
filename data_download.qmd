@@ -142,18 +142,51 @@ ML_eight <- cleaned_eight %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON,
 ML_thirteen <- cleaned_thirteen %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON, -BEGIN_DATE_TIME, -END_DATE_TIME)
 ML_eighteen <- cleaned_eighteen %>% select(-BEGIN_LAT, -BEGIN_LON, -END_LAT, -END_LON, -BEGIN_DATE_TIME, -END_DATE_TIME)
 
+quantile(ML_eight$aggregate_stat[ML_eight$aggregate_stat != 0])[4]
+
+scale_aggregate <- function(aggregate_stat){
+  scaled_stats <- numeric(length(aggregate_stat))
+  quantiles_aggregate <- quantile(aggregate_stat[aggregate_stat != 0])
+  
+  for (i in 1:length(aggregate_stat)){
+    if(aggregate_stat[i] == 0){
+      scaled_stats[i] <- 0
+    } else if (aggregate_stat[i] > 0 && aggregate_stat[i] <= quantiles_aggregate[2]) {
+      scaled_stats[i] <- 1
+    } else if (aggregate_stat[i] > quantiles_aggregate[2] && aggregate_stat[i] <= quantiles_aggregate[3]) {
+      scaled_stats[i] <- 2
+    } else if (aggregate_stat[i] > quantiles_aggregate[3] && aggregate_stat[i] <= quantiles_aggregate[4]) {
+      scaled_stats[i] <- 3
+    } else if (aggregate_stat[i] > quantiles_aggregate[4]) {
+      scaled_stats[i] <- 4
+    }
+  }
+  scaled_stats
+}
+
+ML_eight <- ML_eight %>% mutate(scaled_aggregate = scale_aggregate(aggregate_stat))
+ML_thirteen <- ML_thirteen %>% mutate(scaled_aggregate = scale_aggregate(aggregate_stat))
+ML_eighteen <- ML_eighteen %>% mutate(scaled_aggregate = scale_aggregate(aggregate_stat))
+
 ML_eight
 ML_thirteen
 ML_eighteen
 
 ```
 
-Plot for Aggregate Stat
+Plots
 ```{r plots}
 library(ggplot2)
-ggplot(ML_eight, aes(aggregate_stat)) + geom_histogram()
-ggplot(ML_thirteen, aes(aggregate_stat)) + geom_histogram()
-ggplot(ML_eighteen, aes(aggregate_stat)) + geom_histogram()
+# For aggregate stat
+ggplot(ML_eight, aes(aggregate_stat*1000)) + geom_histogram() + xlim(c(0,300)) + ylim(0, 100)
+ggplot(ML_thirteen, aes(aggregate_stat*1000)) + geom_histogram() + xlim(c(0,300)) + ylim(0, 100)
+ggplot(ML_eighteen, aes(aggregate_stat*1000)) + geom_histogram() + xlim(c(0,300)) + ylim(0, 100)
+
+# For scaled stat
+ggplot(ML_eight, aes(scaled_aggregate)) + geom_histogram()
+ggplot(ML_thirteen, aes(scaled_aggregate)) + geom_histogram()
+ggplot(ML_eighteen, aes(scaled_aggregate)) + geom_histogram()
+
 
 ```
 
