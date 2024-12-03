@@ -146,6 +146,15 @@ ML_eight
 ML_thirteen
 ML_eighteen
 
+```
 
+Plot for Aggregate Stat
+```{r plots}
+library(ggplot2)
+ggplot(ML_eight, aes(aggregate_stat)) + geom_histogram()
+ggplot(ML_thirteen, aes(aggregate_stat)) + geom_histogram()
+ggplot(ML_eighteen, aes(aggregate_stat)) + geom_histogram()
 
 ```
+
+
