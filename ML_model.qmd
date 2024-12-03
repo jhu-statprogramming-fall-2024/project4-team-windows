@@ -6,7 +6,25 @@ editor: visual
 
 ## ML Model
 ```{r}
-ML_data <- read.csv("ML_wind_data.csv")
-ML_data
+library(dplyr)
+library(tidymodels)
 
 ```
+
+Preparing the Data
+```{r}
+# Read in data
+ML_data <- read.csv("ML_wind_data.csv")
+
+# Remove variables in aggregate statistic
+ML_data <- ML_data %>% select(-INJURIES_DIRECT, -INJURIES_INDIRECT, -DEATHS_DIRECT, -DEATHS_INDIRECT, -DAMAGE_PROPERTY, -DAMAGE_CROPS, -aggregate_stat)
+
+# Prepare remaining data for analysis -- make sure character strings are factors, etc.
+ML_data <- ML_data %>% mutate(STATE = as.factor(STATE), YEAR = as.factor(YEAR), MONTH_NAME = as.factor(MONTH_NAME), EVENT_TYPE = as.factor(EVENT_TYPE), MAGNITUDE_TYPE = as.factor(MAGNITUDE_TYPE))
+
+ML_data
+```
+
+
+
+
