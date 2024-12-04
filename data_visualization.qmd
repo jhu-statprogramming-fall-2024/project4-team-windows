@@ -5,8 +5,34 @@ editor: visual
 ---
 
 ## Import Data
+
 ```{r}
 data <- read.csv("ML_wind_data.csv")
 data
 
 ```
+
+
+```{r}
+library(ggplot2)
+
+
+ggplot(data, aes(x = scaled_aggregate)) +
+  geom_histogram()+ labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate Statistics", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "NEED TO WRITE!!!!!!!")
+```
+
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0) +  
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by year", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "NEED TO WRITE!!!!!!!") 
+
+```
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by month", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "NEED TO WRITE!!!!!!!") 
+```
+
