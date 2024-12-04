@@ -9,6 +9,8 @@ editor: visual
 library(dplyr)
 library(tidymodels)
 library(ranger)
+library(parallel)
+library(future)
 
 ```
 
@@ -28,7 +30,7 @@ ML_data
 
 ```
 
-Running the Model
+Split the Data and Define the Model
 ```{r}
 # Split data into training/test sets
 set.seed(1234)
@@ -40,7 +42,7 @@ test_data  <- testing(data_split)
 ML_recipe <- recipe(scaled_aggregate ~ ., data = train_data) %>% update_role(EVENT_ID, new_role = "ID")
 
 # Define Random Forest Model Specs
-model_spec <- rand_forest(mtry = 3, trees = 100, min_n = 5) %>%
+model_spec <- rand_forest(mtry = tune(), trees = tune(), min_n = tune()) %>%
   set_mode("classification") %>%
   set_engine("ranger", importance = "permutation")
 
@@ -48,9 +50,48 @@ model_spec <- rand_forest(mtry = 3, trees = 100, min_n = 5) %>%
 ML_workflow <- workflow() %>%
   add_recipe(ML_recipe) %>%
   add_model(model_spec)
+```
+
+Hyperparameter Tuning (with parallel computing)
+```{r}
+# Set up parallel computing
+numCores <- detectCores()
+plan(multisession, workers = numCores)
+
+# Run hyperparameter tuning
+## define cross validation folds
+cv_folds <- vfold_cv(train_data, v = 3)
+
+## define hyperparameters to tune
+parameter_grid <- grid_regular(
+  mtry(range = c(2, 7)),
+  trees(range = c(50, 250)),
+  min_n(range = c(1, 10))
+)
+
+## tune hyperparameters
+tuned_results <- ML_workflow %>%
+  tune_grid(resamples = cv_folds, grid = parameter_grid) 
+
+tuned_results %>%
+  collect_metrics()
+
+# Return to work on one core
+plan(sequential)
+
+```
+
+Train and Test Model
+```{r}
+# Finalize workflow with best hyperparameters
+best_params <- tuned_results %>%
+  select_best(metric = "roc_auc")
+best_params
+
+ML_workflow_final <- ML_workflow %>% finalize_workflow(best_params)
 
 # Train Data
-trained_model <- ML_workflow %>%
+trained_model <- ML_workflow_final %>%
   fit(data = train_data)
 
 # Test data on testing data
