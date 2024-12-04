@@ -28,7 +28,7 @@ ML_data
 
 ```
 
-Splitting the Data
+Running the Model
 ```{r}
 # Split data into training/test sets
 set.seed(1234)
@@ -56,13 +56,17 @@ trained_model <- ML_workflow %>%
 # Test data on testing data
 test_predict <- predict(trained_model, new_data = test_data) %>%
   bind_cols(test_data)
+```
 
+Evaluating the Model
+```{r}
 # Evaluate model
 model_eval <- test_predict %>%
   metrics(truth = scaled_aggregate, estimate = .pred_class)
 
 model_eval
 
+# Feature Importance
 importance <- trained_model %>%
   extract_fit_engine() %>%
   ranger::importance()
