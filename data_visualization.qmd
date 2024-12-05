@@ -35,4 +35,9 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by month", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "NEED TO WRITE!!!!!!!") 
 ```
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by event type", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "NEED TO WRITE!!!!!!!") 
+```
 
