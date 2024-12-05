@@ -18,7 +18,7 @@ library(ggplot2)
 
 
 ggplot(data, aes(x = scaled_aggregate)) +
-  geom_histogram()+ labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate Statistics", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "The majority of events had no damage followed by little damage.")
+  geom_histogram()+ labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate Statistics", caption = "", subtitle = "The majority of events had no damage followed by little damage.")
 ```
 
 
@@ -26,18 +26,18 @@ ggplot(data, aes(x = scaled_aggregate)) +
 ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0) +  
-  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by year", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "Distirbution by years are pretty similar but 2008 has the most damage.") 
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by year", caption = "The aggregate statistic is on a scale from 0-4", subtitle  = "Distirbution by years are pretty similar but 2008 has the most damage.") 
 
 ```
 
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by month", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "Events during summer months appear to cause the most damage.") 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by month", caption = "The aggregate statistic is on a scale from 0-4", subtitle = "Events during summer months appear to cause the most damage.") 
 ```
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by event type", subtitle = "The aggregate statistic is on a scale from 0-4", caption = "Majority of the data is from thunderstorm wind events.") 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics grouped by event type", caption = "The aggregate statistic is on a scale from 0-4", subtitle = "Majority of the data is from thunderstorm wind events.") 
 ```
 
