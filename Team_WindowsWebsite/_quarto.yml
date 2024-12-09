@@ -7,11 +7,11 @@ website:
     left:
       - href: index.qmd
         text: Background
-      - href: Data Visualization.qmd
+      - href: Data_Visualization.qmd
         text: Data Visualization
-      - href: Aggregate Statistic.qmd
-        text: Aggregate Statistic
-      - href: Machine Learning Model.qmd
+      - href: Wind_Categorization.qmd
+        text: Wind Devastation Categorization
+      - href: Machine_Learning_Model.qmd
         text: Machine Learning Model
 
 format:

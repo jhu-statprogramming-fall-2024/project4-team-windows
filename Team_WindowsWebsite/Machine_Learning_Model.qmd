@@ -4,6 +4,10 @@ format: html
 editor: visual
 ---
 
+## Description
+The goal of this section is to demonstrate whether or not our statistic for wind categorization can be predicted using a machine learning model. We chose a random forest model, as our variable is categorical with more than two choices. In building the model, we tuned the following hyperparameters using cross validation: number of trees, minimum samples required to be at a leaf node, and the number of features to consider at each split in a tree. During this hyperparameter tuning step, which is typically time consuming for large datasets such as ours, we used parallel computing. Future directions may consider different machine learning models to improve accuracy.
+
+
 ```{r}
 library(dplyr)
 library(tidymodels)
@@ -25,7 +29,7 @@ ML_data <- ML_data %>% select(-INJURIES_DIRECT, -INJURIES_INDIRECT, -DEATHS_DIRE
 ML_data <- ML_data %>% mutate(STATE = as.factor(STATE), YEAR = as.factor(YEAR), MONTH_NAME = as.factor(MONTH_NAME), EVENT_TYPE = as.factor(EVENT_TYPE), MAGNITUDE_TYPE = as.factor(MAGNITUDE_TYPE), scaled_aggregate = as.factor(scaled_aggregate))
 
 ML_data <- na.omit(ML_data)
-ML_data
+head(ML_data)
 ```
 
 ### Split the Data and Define the Model
@@ -115,3 +119,7 @@ importance <- trained_model %>%
 
 importance
 ```
+
+## Conclusion
+In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important features in the model were wind magnitude and the state the event took place in. The least important features were changes in latitude and longitude, but that could be due to the fact that many wind events did not record changes in latitude and longitude. Because our accuracy and kappa values were higher than we would expect by random chance, we have shown that our statistic for wind categorization is predictable and future directions may be pursued.
+

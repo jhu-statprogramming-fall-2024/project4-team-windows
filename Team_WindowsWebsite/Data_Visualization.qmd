@@ -8,7 +8,6 @@ editor: visual
 ## **Import Data**
 
 ```{r}
-setwd("/Users/dhruthi11/Downloads/")
 data <- read.csv("ML_wind_data.csv")
 
 library(ggplot2)

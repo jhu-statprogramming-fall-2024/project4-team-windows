@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Prediction of Extreme Weather Event Devastation – Team Windows Website</title>
+<title>Wind Devastation Categorization – Team Windows Website</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Background</span></a>
   </li>  
   <li class="nav-item">
@@ -97,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Data Visualization</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Wind_Categorization.html"> 
+    <a class="nav-link active" href="./Wind_Categorization.html" aria-current="page"> 
 <span class="menu-text">Wind Devastation Categorization</span></a>
   </li>  
   <li class="nav-item">
@@ -115,15 +115,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-description" id="toc-data-description" class="nav-link active" data-scroll-target="#data-description">Data Description</a></li>
+  <li><a href="#wind-event-devastation-categorization" id="toc-wind-event-devastation-categorization" class="nav-link" data-scroll-target="#wind-event-devastation-categorization">Wind Event Devastation Categorization</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Prediction of Extreme Weather Event Devastation</h1>
+<h1 class="title">Wind Devastation Categorization</h1>
 </div>
 
 
@@ -140,22 +147,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Team Windows is comprised of Kate Brown, Cassie Chou, Grace Brooks, and Dhruthi Mandavilli.</p>
-<p><strong>Research Question</strong></p>
-<p>Can we model extreme wind devastation (aggregate statistic including direct and indirect injury/deaths, damage to property, and damage to crops) based on factors like location, magnitude, time of year, etc.?</p>
-<p><strong>Motivation</strong></p>
-<p>We seek to protect vulnerable communities by predicting storm devastation to allocate more resources and save lives through wind event preparation. Ultimately, we hope to preemptively reduce devastation and speed up recovery after the event.</p>
-<p><strong>Goals</strong></p>
+<section id="data-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
+<p>Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018, which can be downloaded here: <a href="https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/">NOAA Database</a>. The data dictionary can be found here: <a href="https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf">Storm Event Data Dictionary</a>.</p>
+<p>In order to analyze the data from our years and events of interest, we filtered the .csv files to only include events that involved wind events. Since we were only looking at the relationship between wind event devastation and time, location, and wind magnitude, we removed all the columns that included data that did not contribute to these categories.</p>
+<p>In terms of data cleaning, there was a lot of missing data. We removed all rows that had an NA in the columns of event type, state, month, magnitude and latitude because these columns are crucial to the machine learning model. In addition, if there were NA values in any of the devastation columns, we replaced it with the value of 0 and made the assumption that if the value was not filled out no damage or injuries occurred.</p>
+</section>
+<section id="wind-event-devastation-categorization" class="level2">
+<h2 class="anchored" data-anchor-id="wind-event-devastation-categorization">Wind Event Devastation Categorization</h2>
+<p>There are six variables included in the calculation of the wind event devastation: direct deaths, indirect deaths, direct injury, indirect injury, damage to property, and damage to crops. Within each variable, we scaled each value to be from zero to one. Once each variable is scaled to be from zero to one, we summed them to get an aggregate statistic. Because many of the wind events had little damage, this value was often very small and hard to interpret. Since we’re interested in the devastation of wind events relative to other wind events, we decided to scale and bin the aggregate such that:</p>
 <ul>
-<li><p>Understand and visualize the relationship between wind event devastation and several characteristics of the event.</p></li>
-<li><p>Create an aggregate statistic that represents wind event devastation.</p></li>
-<li><p>Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic.</p></li>
-<li><p>Make our results available and digestible to the public in this website.</p></li>
+<li><p>0 - No Devastation</p></li>
+<li><p>1 - Minimal Devastation</p></li>
+<li><p>2 - Low Devastation</p></li>
+<li><p>3 - Moderate Devastation</p></li>
+<li><p>4 - Most Devastation</p></li>
 </ul>
-<p><strong>Data Source</strong></p>
-<p>Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018.</p>
+<p>To scale the aggregate, we first set all rows with 0 for the aggregate value to be 0. Then, we removed all of these rows and found the quantiles of the aggregate statistic for the remaining rows. Any values in the first quartile were labeled as 1, any in the second as 2, any in the third as 3, and the remaining values in the fourth as 4. This made the aggregate more interpretable as a wind event devastation categorization.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -20,4 +20,8 @@ We seek to protect vulnerable communities by predicting storm devastation to all
 
 - Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic. 
 
-- Make our results available and digestible to the public in a website.
+- Make our results available and digestible to the public in this website.
+
+**Data Source**
+
+Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018.

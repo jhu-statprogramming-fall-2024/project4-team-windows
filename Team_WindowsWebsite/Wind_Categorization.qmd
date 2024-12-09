@@ -1,0 +1,29 @@
+---
+title: "Wind Devastation Categorization"
+format: html
+editor: visual
+---
+
+## Data Description
+
+Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018, which can be downloaded here: [NOAA Database](https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/). The data dictionary can be found here: [Storm Event Data Dictionary](https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf).
+
+In order to analyze the data from our years and events of interest, we filtered the .csv files to only include events that involved wind events. Since we were only looking at the relationship between wind event devastation and time, location, and wind magnitude, we removed all the columns that included data that did not contribute to these categories.
+
+In terms of data cleaning, there was a lot of missing data. We removed all rows that had an NA in the columns of event type, state, month, magnitude and latitude because these columns are crucial to the machine learning model. In addition, if there were NA values in any of the devastation columns, we replaced it with the value of 0 and made the assumption that if the value was not filled out no damage or injuries occurred.
+
+## Wind Event Devastation Categorization
+
+There are six variables included in the calculation of the wind event devastation: direct deaths, indirect deaths, direct injury, indirect injury, damage to property, and damage to crops. Within each variable, we scaled each value to be from zero to one. Once each variable is scaled to be from zero to one, we summed them to get an aggregate statistic. Because many of the wind events had little damage, this value was often very small and hard to interpret. Since we’re interested in the devastation of wind events relative to other wind events, we decided to scale and bin the aggregate such that:
+
+-   0 - No Devastation
+
+-   1 - Minimal Devastation
+
+-   2 - Low Devastation
+
+-   3 - Moderate Devastation
+
+-   4 - Most Devastation
+
+To scale the aggregate, we first set all rows with 0 for the aggregate value to be 0. Then, we removed all of these rows and found the quantiles of the aggregate statistic for the remaining rows. Any values in the first quartile were labeled as 1, any in the second as 2, any in the third as 3, and the remaining values in the fourth as 4. This made the aggregate more interpretable as a wind event devastation categorization.
