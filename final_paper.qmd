@@ -4,9 +4,39 @@ format: html
 editor: visual
 ---
 
-## Goals, Importance, Background
+# **Prediction of Wind Event Devastation**
+
+## Team Windows Group Members
+
+Cassie Chou, JHED ID: cchou24, email: cchou24\@jh.edu\
+Kate Brown, JHED ID: kbrow275, email: kbrow275\@jh.edu\
+Grace Brooks, JHED ID: mbrook66, email: mbrook66\@jh.edu\
+Dhruthi Mandavilli, JHED ID: dmandav2, email: dmandav2\@jh.edu
+
+## Question
+
+Can we model wind event devastation (aggregate statistic including direct and indirect in- jury/deaths, damage to property, damage to crops) based on factors like location, magnitude, wind speed, etc.?
+
+## Goals and Importance
+
+The primary goals of our project were the following:
+
+1.  Understand the relationship between wind event devastation and several characteristics of the event such as time, location, and wind magnitude.
+
+2.  Create an aggregate statistic that represents wind event devastation.
+
+3.  Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic.
+
+4.  Make our results available and digestible to the public on a website.
+
+Our aggregate statistic represents a combination of indirect and direct injuries and death, damage to property, and damage to crops caused by the wind event.
+
+Similar to how hurricane categorization can help governments and citizens plan and prepare for upcoming storms, we hope that predicting wind event devastation will help protect vulnerable communities. If we can predict wind event devastation, we can allocate more resources to vulnerable locations and warn vulnerable populations. By giving governmental bodies a better idea of how much devastation to prepare for, we hope to motivate wind event preparation and ultimately reduce this devastation and speed up recovery.
+
+## Background
 
 ## Import Packages
+
 ```{r}
 library(httr)
 library(purrr)
@@ -19,6 +49,7 @@ library(stringr)
 ```
 
 ## Downloading the Data
+
 ```{r}
 #create location to save the data files
 storm_data <- "storm_events_csvs"
@@ -93,6 +124,7 @@ eighteen = StormEvents_details.ftp_v1.0_d2018_c20240716
 ```
 
 ## Data Cleaning
+
 ```{r}
 clean_data = function(data) {
 cleaned_data = data %>% 
@@ -126,6 +158,21 @@ cleaned_eighteen = clean_data(eighteen)
 ```
 
 ## Combine Data and Create Aggregate Statistic
+
+There are six variables included in the calculation of the aggregate statistic: direct deaths, indirect deaths, direct injury, indirect injury, damage to property, and damage to crops. Within each variable, we scaled each value to be from zero to one using the following formula: (value - min(Variable))/(max(Variable) - min(Variable)). Once each variable is scaled to be from zero to one, we summed them to get an aggregate statistic. Because many of the wind events had little damage, this value was often very small and hard to interpret. Since we’re interested in the devastation of wind events relative to other wind events, we decided to scale and bin the aggregate such that:
+
+-   0 - No Devastation
+
+-   1 - Minimal Devastation
+
+-   2 - Low Devastation
+
+-   3 - Moderate Devastation
+
+-   4 - Most Devastation
+
+To scale the aggregate, we first set all rows with 0 for the aggregate value to be 0. Then, we removed all of these rows and found the quantiles of the aggregate statistic for the remaining rows. Any values in the first quartile were labeled as 1, any in the second as 2, any in the third as 3, and the remaining values in the fourth as 4. This made the aggregate more interpretable.
+
 ```{r combineddata}
 # Combine Data
 combined_data <- rbind(cleaned_eight, cleaned_thirteen, cleaned_eighteen)
@@ -168,15 +215,23 @@ write.csv(combined_data,"ML_wind_data.csv", row.names = FALSE)
 
 ## Data Visualizations
 
+## Programming Paradigms
+
+We employed the supervised learning paradigm when building our machine learning model. We used a random forest model, as the variable we were trying to predict is categorical with more than two choices. Our predictor variables are the following: state, year, month, event type, magnitude, magnitude type, time duration, change in latitude, and change in longitude.
+
+In building the model, we tuned the following hyperparameters using cross validation: number of trees, minimum samples required to be at a leaf node, and the number of features to consider at each split in a tree. During this hyperparameter tuning step, which is typically time consuming for large datasets such as ours, we used parallel computing. In the tune_grid() function, the evaluations of the different combinations of hyperparameters in the grid were evaluated on different cores. This sped up the process. We used the future package.
 
 ## Creating Machine Learning Model
+
 ```{r}
 library(tidymodels)
 library(ranger)
 library(parallel)
 library(future)
 ```
+
 Preparing the Data
+
 ```{r}
 # Read in data
 ML_data <- read.csv("ML_wind_data.csv")
@@ -193,6 +248,7 @@ head(ML_data)
 ```
 
 Split the Data and Define the Model
+
 ```{r}
 # Split data into training/test sets
 set.seed(1234)
@@ -215,8 +271,8 @@ ML_workflow <- workflow() %>%
 
 ```
 
-
 ### Hyperparameter Tuning with Parallel Computing
+
 ```{r}
 # Set up parallel computing
 numCores <- detectCores()
@@ -246,6 +302,7 @@ plan(sequential)
 ```
 
 Train, Test, and Evaluate Model
+
 ```{r}
 # Finalize workflow with best hyperparameters
 best_params <- tuned_results %>%
@@ -279,4 +336,14 @@ importance
 
 ## What We Learned
 
+In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important features in the model were wind magnitude and the state the event took place in. The least important features were changes in latitude and longitude, but that could be due to the fact that many wind events did not record changes in latitude and longitude. 
 
+These results indicate that our statistic for wind categorization can be predicted from our predictors, and that future work can be done to improve the model. This may include using different machine learning models and testing our model on different wind datasets to improve and test accuracy. One might also try different strategies for handling missing data – we chose to list everything missing in the devastation categorization as zero, but perhaps there are better strategies for this.
+
+## Links
+
+Github Repository:
+
+Website:
+
+## Sources
