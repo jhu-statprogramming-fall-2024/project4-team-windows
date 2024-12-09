@@ -1,0 +1,23 @@
+---
+title: "Prediction of Extreme Weather Event Devastation"
+---
+
+Team Windows is comprised of Kate Brown, Cassie Chou, Grace Brooks, and Dhruthi Mandavilli.
+
+**Research Question**
+
+Can we model extreme wind devastation (aggregate statistic including direct and indirect injury/deaths, damage to property, and damage to crops) based on factors like location, magnitude, time of year, etc.?
+
+**Motivation**
+
+We seek to protect vulnerable communities by predicting storm devastation to allocate more resources and save lives through wind event preparation. Ultimately, we hope to preemptively reduce devastation and speed up recovery after the event.
+
+**Goals**
+
+- Understand and visualize the relationship between wind event devastation and several characteristics of the event.
+
+- Create an aggregate statistic that represents wind event devastation.
+
+- Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic. 
+
+- Make our results available and digestible to the public in a website.

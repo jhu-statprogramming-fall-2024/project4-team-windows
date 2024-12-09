@@ -1,0 +1,24 @@
+project:
+  type: website
+
+website:
+  title: "Team Windows Website"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Background
+      - href: Data Visualization.qmd
+        text: Data Visualization
+      - href: Aggregate Statistic.qmd
+        text: Aggregate Statistic
+      - href: Machine Learning Model.qmd
+        text: Machine Learning Model
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+
