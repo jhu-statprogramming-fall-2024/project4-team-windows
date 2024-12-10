@@ -153,7 +153,9 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Make our results available and digestible to the public in this website.</p></li>
 </ul>
 <p><strong>Data Source</strong></p>
-<p>Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018.</p>
+<p>Our data is sourced from the <a href="https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/">National Oceanic and Atmospheric Administration (NOAA) Storm Event database</a>. We used storm event data from the years 2008, 2013, and 2018.</p>
+<p><strong>Main Takeaways and Future Directions</strong></p>
+<p>We successfully created an aggregate statistic that represents wind event devastation. In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important predictor variables were wind magnitude and the state the event took place in. These results indicate that our statistic for wind categorization can be predicted from our predictors, and that future work can be done to improve the model. This may include using different machine learning models and testing our model on different wind datasets to improve and test accuracy. One might also try different strategies for handling missing data – we chose to list everything missing in the devastation categorization as zero, but perhaps there are better strategies for this.</p>
 
 
 

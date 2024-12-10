@@ -14,14 +14,18 @@ We seek to protect vulnerable communities by predicting storm devastation to all
 
 **Goals**
 
-- Understand and visualize the relationship between wind event devastation and several characteristics of the event.
+-   Understand and visualize the relationship between wind event devastation and several characteristics of the event.
 
-- Create an aggregate statistic that represents wind event devastation.
+-   Create an aggregate statistic that represents wind event devastation.
 
-- Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic. 
+-   Develop a machine learning model that would use relevant predictors, such as wind magnitude, storm time duration, and location, to predict this statistic.
 
-- Make our results available and digestible to the public in this website.
+-   Make our results available and digestible to the public in this website.
 
 **Data Source**
 
-Our data is sourced from the National Oceanic and Atmospheric Administration (NOAA) Storm Event database. We used storm event data from the years 2008, 2013, and 2018.
+Our data is sourced from the [National Oceanic and Atmospheric Administration (NOAA) Storm Event database](https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/). We used storm event data from the years 2008, 2013, and 2018.
+
+**Main Takeaways and Future Directions**
+
+We successfully created an aggregate statistic that represents wind event devastation. In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important predictor variables were wind magnitude and the state the event took place in. These results indicate that our statistic for wind categorization can be predicted from our predictors, and that future work can be done to improve the model. This may include using different machine learning models and testing our model on different wind datasets to improve and test accuracy. One might also try different strategies for handling missing data – we chose to list everything missing in the devastation categorization as zero, but perhaps there are better strategies for this.
