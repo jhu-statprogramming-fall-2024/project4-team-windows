@@ -30,9 +30,9 @@ ggplot(data, aes(x = scaled_aggregate)) +
 
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
-  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0, color = "black") +  
-  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distirbution by years are pretty similar but 2008 has the\nmost devastation.") +
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -46,32 +46,32 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
-  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
-    axis.title.x = element_text(size = 19), 
-    axis.title.y = element_text(size = 19), 
+    axis.title.x = element_text(size = 15), 
+    axis.title.y = element_text(size = 15), 
     axis.text.x = element_text(size = 14), 
-    axis.text.y = element_text(size = 17), 
-    legend.text = element_text(size = 15),
-    legend.title = element_text(size = 18)) 
+    axis.text.y = element_text(size = 15), 
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 15)) 
 ```
 
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
-  geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
   theme_minimal() +
-  theme(plot.title = element_text(size = 21, face = "bold"), 
-    plot.subtitle = element_text(size = 17), 
-    axis.title.x = element_text(size = 19), 
-    axis.title.y = element_text(size = 19), 
-    axis.text.x = element_text(size = 14), 
-    axis.text.y = element_text(size = 17), 
-    legend.text = element_text(size = 15),
-    legend.title = element_text(size = 18)) 
+  theme(plot.title = element_text(size = 19, face = "bold"), 
+    plot.subtitle = element_text(size = 15), 
+    axis.title.x = element_text(size = 17), 
+    axis.title.y = element_text(size = 17), 
+    axis.text.x = element_text(size = 12), 
+    axis.text.y = element_text(size = 15), 
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 13)) 
 ```
 
 ## [**Predictor Variables**]{.underline}

@@ -5,6 +5,7 @@ editor: visual
 ---
 
 **Import Data**
+
 ```{r}
 setwd("/Users/dhruthi11/Downloads/")
 data <- read.csv("ML_wind_data.csv")
@@ -12,9 +13,8 @@ data <- read.csv("ML_wind_data.csv")
 library(ggplot2)
 ```
 
+**Aggregate Statistic** Histogram of the Distributed Aggregate Statistics
 
-**Aggregate Statistic**
-Histogram of the Distributed Aggregate Statistics
 ```{r}
 ggplot(data, aes(x = scaled_aggregate)) +
   geom_histogram(fill = "darkmagenta", color = "black") + 
@@ -29,6 +29,7 @@ ggplot(data, aes(x = scaled_aggregate)) +
 ```
 
 Histogram of the Aggregate Statistics grouped by year
+
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
@@ -46,6 +47,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 ```
 
 Histogram of the Aggregate Statistics grouped by month
+
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
@@ -62,6 +64,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
 ```
 
 Histogram of the Aggregate Statistics grouped by event type
+
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate) - min(data$scaled_aggregate)) / 15, 
@@ -77,9 +80,8 @@ ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
     legend.title = element_text(size = 18)) 
 ```
 
+**Predictor Variables** Number of Extreme Wind Events by Event Type
 
-**Predictor Variables**
-Number of Extreme Wind Events by Event Type
 ```{r}
 ggplot(data, aes(x = EVENT_TYPE)) +
   geom_bar(fill = "lightblue", color = "black") +
@@ -98,6 +100,7 @@ ggplot(data, aes(x = EVENT_TYPE)) +
 ```
 
 Number of Extreme Wind Events by State
+
 ```{r}
 ggplot(data, aes(x = STATE)) +
   geom_bar(fill = "deepskyblue1", color = "black") +
@@ -116,6 +119,7 @@ ggplot(data, aes(x = STATE)) +
 ```
 
 Number of Extreme Wind Events by Month
+
 ```{r}
 data$MONTH_NAME <- factor(data$MONTH_NAME, 
                           levels = c("January", "February", 
@@ -139,6 +143,7 @@ ggplot(data, aes(x = MONTH_NAME)) +
 ```
 
 Histogram of Extreme Wind Events by Wind Speed
+
 ```{r}
 ggplot(data, aes(x = MAGNITUDE)) +
   geom_histogram(binwidth = 10, fill = "deepskyblue3", color = "black") +
@@ -156,6 +161,7 @@ ggplot(data, aes(x = MAGNITUDE)) +
 ```
 
 Number of Extreme Wind Events by Year
+
 ```{r}
 data$YEAR <- as.factor(data$YEAR)
 
@@ -189,9 +195,8 @@ ggplot(data, aes(x = YEAR)) +
 #  geom_histogram()
 ```
 
+**Variables in Aggregate Statistic** Crop Damage
 
-**Variables in Aggregate Statistic**
-Crop Damage
 ```{r}
 data$DAMAGE_CROPS_cat <- ifelse(data$DAMAGE_CROPS == 0, "Zero", "Non-Zero")
 
@@ -226,6 +231,7 @@ ggplot(non_zero_DAMAGE_CROPS, aes(x = DAMAGE_CROPS)) +
 ```
 
 Property Damage
+
 ```{r}
 data$DAMAGE_PROPERTY_cat <- ifelse(data$DAMAGE_PROPERTY == 0, "Zero", "Non-Zero")
 
@@ -261,6 +267,7 @@ ggplot(non_zero_DAMAGE_PROPERTY, aes(x = DAMAGE_PROPERTY)) +
 ```
 
 Indirect Injury
+
 ```{r}
 data$INJURIES_INDIRECT_cat <- ifelse(data$INJURIES_INDIRECT == 0, "Zero", "Non-Zero")
 
@@ -295,6 +302,7 @@ ggplot(non_zero_INJURIES_INDIRECT, aes(x = INJURIES_INDIRECT)) +
 ```
 
 Direct Injury
+
 ```{r}
 data$INJURIES_DIRECT_cat <- ifelse(data$INJURIES_DIRECT == 0, "Zero", "Non-Zero")
 
@@ -329,6 +337,7 @@ ggplot(non_zero_INJURIES_DIRECT, aes(x = INJURIES_DIRECT)) +
 ```
 
 Indirect Death
+
 ```{r}
 data$DEATHS_INDIRECT_cat <- ifelse(data$DEATHS_INDIRECT == 0, "Zero", "Non-Zero")
 
@@ -363,6 +372,7 @@ ggplot(non_zero_DEATHS_INDIRECT, aes(x = DEATHS_INDIRECT)) +
 ```
 
 Direct Death
+
 ```{r}
 data$DEATHS_DIRECT_cat <- ifelse(data$DEATHS_DIRECT == 0, "Zero", "Non-Zero")
 
