@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-## **Import Data**
+This page allows you to explore the visualizations that we created in the process of understanding our data and aggregate statistic.
 
 ```{r}
 data <- read.csv("ML_wind_data.csv")
