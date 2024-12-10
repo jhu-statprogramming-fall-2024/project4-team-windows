@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-This page allows you to explore the visualizations that we created in the process of understanding our data and aggregate statistic.
+## Description
+
+This page allows you to explore visualizations of our data to aid in your understanding our dataset and the wind devastation statistic. We include visualizations of our predictor variables, the variables included in the wind devastation statistic, and the wind devastation statistic itself. We also began exploring the relationship between the wind devastation characteristic and a few of our predictor variables.
+
+## Import Data
 
 ```{r}
 data <- read.csv("ML_wind_data.csv")
@@ -13,12 +17,28 @@ data <- read.csv("ML_wind_data.csv")
 library(ggplot2)
 ```
 
-## [**Aggregate Statistic**]{.underline}
+## [**Wind Devastation Categorization**]{.underline}
+
+::: {.callout-note}
+
+Description of Wind Devastation Categorization
+
+-   0 - No Devastation
+
+-   1 - Minimal Devastation
+
+-   2 - Low Devastation
+
+-   3 - Moderate Devastation
+
+-   4 - Most Devastation
+
+:::
 
 ```{r}
 ggplot(data, aes(x = scaled_aggregate)) +
   geom_histogram(fill = "darkmagenta", color = "black") + 
-  labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate\nStatistic", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
+  labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Wind Devastation\nCategorization", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -32,7 +52,7 @@ ggplot(data, aes(x = scaled_aggregate)) +
 ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0, color = "black") +  
-  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -47,7 +67,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -62,7 +82,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 19, face = "bold"), 
     plot.subtitle = element_text(size = 15), 
@@ -149,22 +169,9 @@ ggplot(data, aes(x = YEAR)) +
     axis.text.y = element_text(size = 17))
 ```
 
-```{r}
-#ggplot(data, aes(x = storm_time_duration)) +
-#  geom_histogram(binwidth = 1000)
-```
+## [**Variables in** Wind Devastation Categorization**: Zero Counts and Non-Zero Frequencies**]{.underline}
 
-```{r}
-#ggplot(data, aes(x = change_lat)) +
-#  geom_histogram()
-```
-
-```{r}
-#ggplot(data, aes(x = change_lon)) +
-#  geom_histogram()
-```
-
-## [**Variables in Aggregate Statistic: Zero Counts and Non-Zero Frequencies**]{.underline}
+Some of the variables in the wind devastation categorization have high counts of value zero. Thus, to better visualize our data, we visualized the counts of zero and non-zero data, and then plotted distributions of the non-zero values.
 
 ```{r}
 #make category
