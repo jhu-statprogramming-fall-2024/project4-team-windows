@@ -125,6 +125,8 @@ eighteen = StormEvents_details.ftp_v1.0_d2018_c20240716
 
 ## Data Cleaning
 
+In order to analyze the data from our years of interest, 2008,2013,2018, we filtered the csv files to only include events that involved wind since that was what was of interest to us. Since we were only looking at between wind event devastation and  time, location, and wind magnitude we removed all the columns that included data that did not contribute to these categories. There was a lot of missing data so in order to deal with that we removed all rows that had an NA in the columns of event type, state, month, magnitude and latitude because these columns were important when making the model. In addition if there were NA values in any of the devastation columns we replaced it with the value of 0 and made the assumption that if the value was not filled out no damage or injuries occurred. 
+
 ```{r}
 clean_data = function(data) {
 cleaned_data = data %>% 
@@ -214,6 +216,71 @@ write.csv(combined_data,"ML_wind_data.csv", row.names = FALSE)
 ```
 
 ## Data Visualizations
+
+```{r}
+data <- read.csv("ML_wind_data.csv")
+
+library(ggplot2)
+```
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate)) +
+  geom_histogram(fill = "darkmagenta", color = "black") + 
+  labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate\nStatistic", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black") +  
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 14), 
+    axis.text.y = element_text(size = 17), 
+    legend.text = element_text(size = 15),
+    legend.title = element_text(size = 18)) 
+```
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 15), 
+    axis.title.y = element_text(size = 15), 
+    axis.text.x = element_text(size = 14), 
+    axis.text.y = element_text(size = 15), 
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 15)) 
+```
+
+```{r}
+ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 19, face = "bold"), 
+    plot.subtitle = element_text(size = 15), 
+    axis.title.x = element_text(size = 17), 
+    axis.title.y = element_text(size = 17), 
+    axis.text.x = element_text(size = 12), 
+    axis.text.y = element_text(size = 15), 
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 13)) 
+```
 
 ## Programming Paradigms
 
@@ -335,6 +402,8 @@ importance
 ```
 
 ## What We Learned
+
+After completing the data visualization it can concluded that the majority of the events being analyzed had no devastation followed by minimal devastation. It can be seen that the distribution of devastation was pretty similar in all 3 years analyzed with 2008 having a little bit more devastation in the minimal, low, moderate and most devastation categories. When looking at the amount of devastation by month the summer months experienced the most amount of devastation. 
 
 In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important features in the model were wind magnitude and the state the event took place in. The least important features were changes in latitude and longitude, but that could be due to the fact that many wind events did not record changes in latitude and longitude. 
 
