@@ -411,8 +411,18 @@ These results indicate that our statistic for wind categorization can be predict
 
 ## Links
 
-Github Repository:
+Github Repository: <https://github.com/jhu-statprogramming-fall-2024/project4-team-windows>
 
 Website:
 
 ## Sources
+
+-   Data Dictionary: <https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf> 
+
+-   NOAA Database: <https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/> 
+
+-   Jacquot, Yves. “Predicting Tornado Magnitude with Machine Learning.” Predicting Tornado Magnitude with Machine Learning, Medium, 11 Oct. 2017, [medium.com/\@yves.jacquot/predicting-tornado-magnitude-with-machine-learning-c76df84d7872](http://medium.com/@yves.jacquot/predicting-tornado-magnitude-with-machine-learning-c76df84d7872).
+
+-   Diaz, Jeremy, and Maxwell B. Joseph. “Predicting property damage from tornadoes with zero-inflated neural networks.” Weather and Climate Extremes, vol. 25, Sept. 2019, p. 100216, <https://doi.org/10.1016/j.wace.2019.100216>.
+
+-   “FAR AFIELD: Researchers Seek out and Study Tornadoes and Severe Weather.” NSSL News, 31 Jan. 2024, [inside.nssl.noaa.gov/nsslnews/2024/01/far-afield-researchers-seek-out-and-study-tornadoes-and-severe-weather/](http://inside.nssl.noaa.gov/nsslnews/2024/01/far-afield-researchers-seek-out-and-study-tornadoes-and-severe-weather/). 
