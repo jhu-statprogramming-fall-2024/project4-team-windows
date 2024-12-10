@@ -35,6 +35,8 @@ Similar to how hurricane categorization can help governments and citizens plan a
 
 ## Background
 
+With the climate change crisis, there has been an increase in extreme weather events over the past decade, and that trend is only expected to continue. We decided that we wanted to look into these extreme events and see what type of analysis we could perform on one or multiple of them. Our initial research found a few articles that used past data on multiple tornado characteristics and machine modeling techniques to predict magnitude\[Jacquot\] and damage\[Diaz and Maxwell\] of tornadoes. We also found an article that did similar modeling on thunderstorms to better equip forecasters and the general public to prepare for storms that could turn into tornadoes\[FAR AFIELD\]. We decided that we wanted to approach our project in a similar way, but investigate a different extreme weather event.
+
 ## Import Packages
 
 ```{r}
@@ -49,6 +51,8 @@ library(stringr)
 ```
 
 ## Downloading the Data
+
+We found a dataset with data that fit our goals in the NOAA Storm Event database. This data was available as .csv files for each year that we could download by simply clicking. Initially, we were not sure the best approach to download them in a non-trivial way. We considered some sort of data mining approach, or using something like wget from the command line. However, we did not think that the format would not work properly. We ended up using the map function from the purrr R package. Since the site had multiple .csv files we were interested in, the map function allowed us to run through them and only download the specific files we were interested in. So, we created a function to download a .csv file and paired it with map() to obtain the files for the years we were interested in (2008, 2013, 2018). This method downloaded the proper files to our computer, however they were zipped and not usable. So, we had to go back into our function and rework the code so that it would unzip and read in the downloaded files. After this fix, everything worked as we had intended.
 
 ```{r}
 #create location to save the data files
