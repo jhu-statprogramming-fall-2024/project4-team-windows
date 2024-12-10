@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: dd4c1aec-d3ad-4549-8d2a-efd1dd86bdf3
+      url: 'https://cassiecchou.quarto.pub/team-windows-website'
