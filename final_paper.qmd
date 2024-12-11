@@ -409,15 +409,21 @@ importance
 
 After completing the data visualization it can concluded that the majority of the events being analyzed had no devastation followed by minimal devastation. It can be seen that the distribution of devastation was pretty similar in all 3 years analyzed with 2008 having a little bit more devastation in the minimal, low, moderate and most devastation categories. When looking at the amount of devastation by month the summer months experienced the most amount of devastation. 
 
-In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important features in the model were wind magnitude and the state the event took place in. The least important features were changes in latitude and longitude, but that could be due to the fact that many wind events did not record changes in latitude and longitude. 
+In the end, our model with the best hyperparameters had an accuracy of 0.6898446 and a kappa value – which measures how much better our model is than random chance (on a scale from 0 to 1) – of 0.4593361. The most important features in the model were wind magnitude and the state the event took place in. The least important features were changes in latitude and longitude, but that could be due to the fact that many wind events did not record changes in latitude and longitude. Still, our model was better than would be expected from random chance, indicating that the answer to the question motivating our paper is yes: we can model wind event devastation using storm characteristics.
+
+## Conclusion and Future Directions
 
 These results indicate that our statistic for wind categorization can be predicted from our predictors, and that future work can be done to improve the model. This may include using different machine learning models and testing our model on different wind datasets to improve and test accuracy. One might also try different strategies for handling missing data – we chose to list everything missing in the devastation categorization as zero, but perhaps there are better strategies for this.
+
+## Final Analytic Product: Website
+
+Our final analytic product is a public-facing website. It includes 4 pages: About, Data Visualizations, Wind Devastation, and ML Model. The background page describes our goal, background, and main takeaways. The objective of the data visualizations page is to help readers understand our dataset. It includes visualizations of the distributions of the variables used to create the wind devastation categorization and the predictor variables in the ML model. Further, we hope to visualize the relationship between the wind devastation categorization and a few variables to help motivate the machine learning model.  As our target audience is the general public, we have chosen to describe the data download/data cleaning and calculation of the wind event categorization statistic instead of showing all of the code. This is in the Wind Devastation page. We decided to show the full derivation of the machine learning model with simplified annotations to make it simultaneously digestible for readers not familiar with machine learning and helpful for future researchers wanting to build off of our work.
 
 ## Links
 
 Github Repository: <https://github.com/jhu-statprogramming-fall-2024/project4-team-windows>
 
-Website:
+Website: <https://cassiecchou.quarto.pub/team-windows-website/>
 
 ## Sources
 
