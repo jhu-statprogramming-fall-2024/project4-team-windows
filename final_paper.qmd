@@ -35,7 +35,7 @@ Similar to how hurricane categorization can help governments and citizens plan a
 
 ## Background
 
-With the climate change crisis, there has been an increase in extreme weather events over the past decade, and that trend is only expected to continue. We decided that we wanted to look into these extreme events and see what type of analysis we could perform on one or multiple of them. Our initial research found a few articles that used past data on multiple tornado characteristics and machine modeling techniques to predict magnitude\[Jacquot\] and damage\[Diaz and Maxwell\] of tornadoes. We also found an article that did similar modeling on thunderstorms to better equip forecasters and the general public to prepare for storms that could turn into tornadoes\[FAR AFIELD\]. We decided that we wanted to approach our project in a similar way, but investigate a different extreme weather event.
+With the climate change crisis, there has been an increase in extreme weather events over the past decade, and that trend is only expected to continue. We decided that we wanted to look into these extreme events and see what type of analysis we could perform on one or multiple of them. Our initial research found a few articles that used past data on multiple tornado characteristics and machine modeling techniques to predict magnitude\[Jacquot\] and damage\[Diaz and Maxwell\] of tornadoes. We also found an article that did similar modeling on thunderstorms to better equip forecasters and the general public to prepare for storms that could turn into tornadoes\[FAR AFIELD\]. We decided that we wanted to approach our project in a similar way, but investigate a different extreme weather event: wind events.
 
 ## Import Packages
 
