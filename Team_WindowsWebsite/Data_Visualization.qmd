@@ -19,8 +19,7 @@ library(ggplot2)
 
 ## [**Wind Devastation Categorization**]{.underline}
 
-::: {.callout-note}
-
+::: callout-note
 Description of Wind Devastation Categorization
 
 -   0 - No Devastation
@@ -32,7 +31,6 @@ Description of Wind Devastation Categorization
 -   3 - Moderate Devastation
 
 -   4 - Most Devastation
-
 :::
 
 ```{r}

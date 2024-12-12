@@ -1,1 +1,1 @@
-Sitemap: https://dd4c1aec-d3ad-4549-8d2a-efd1dd86bdf3.netlify.app/sitemap.xml
+Sitemap: https://cassiecchou.quarto.pub/team-windows-website/sitemap.xml
