@@ -67,7 +67,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Month", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -82,7 +82,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Event Type", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 19, face = "bold"), 
     plot.subtitle = element_text(size = 15), 
