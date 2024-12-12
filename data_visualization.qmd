@@ -17,7 +17,7 @@ library(ggplot2)
 ```{r}
 ggplot(data, aes(x = scaled_aggregate)) +
   geom_histogram(fill = "darkmagenta", color = "black") + 
-  labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate Statistics", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by minimal devastation.") +
+  labs(x = "Scaled Aggregate", y = "Count", title = "Histogram of the Distributed Aggregate Statistics", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by minimal devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 24, face = "bold"), 
     plot.subtitle = element_text(size = 20), 
