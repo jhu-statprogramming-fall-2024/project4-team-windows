@@ -222,7 +222,11 @@ write.csv(combined_data,"ML_wind_data.csv", row.names = FALSE)
 ## Data Visualizations
 
 **Wind Devastation Categorization**
+<<<<<<< HEAD
 Our first set of plots were created to visualize the wind devastation categorization created to quantify extreme wind events based on deaths, injuries, and damages as mentioned above. The distribution of wind devastation is then broken down by year, month, and event type as some of our predictor variables.
+=======
+We used the ggplot2 package to create our histograms and bar plots. Our first set of plots were created to visualize the wind devastation categorization created to quantify extreme wind events based on deaths, injuries, and damages as mentioned above. The distribution of wind devastation is then broken down by year, month, and event type as some of our predictor variables.
+>>>>>>> 70cee1d (Add final paper rendered)
 
 ```{r}
 data <- read.csv("ML_wind_data.csv")
@@ -233,7 +237,11 @@ library(ggplot2)
 ```{r}
 ggplot(data, aes(x = scaled_aggregate)) +
   geom_histogram(fill = "darkmagenta", color = "black") + 
+<<<<<<< HEAD
   labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Wind Devastation\nCategorization", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
+=======
+  labs(x = "Wind Devastation Categorization", y = "Count", title = "Histogram of the Wind Devastation\nCategorization", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
+>>>>>>> 70cee1d (Add final paper rendered)
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -260,9 +268,20 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 ```
 
 ```{r}
+<<<<<<< HEAD
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+=======
+#order the months
+data$MONTH_NAME <- factor(data$MONTH_NAME, 
+                          levels = c("January", "February", "March", "April", "May", "June",
+                                     "July", "August", "September", "October", "November", "December"))
+
+ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
+  geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Month", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+>>>>>>> 70cee1d (Add final paper rendered)
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -277,7 +296,11 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
+<<<<<<< HEAD
                  alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+=======
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Event Type", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+>>>>>>> 70cee1d (Add final paper rendered)
   theme_minimal() +
   theme(plot.title = element_text(size = 19, face = "bold"), 
     plot.subtitle = element_text(size = 15), 
