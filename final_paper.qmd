@@ -129,7 +129,7 @@ eighteen = StormEvents_details.ftp_v1.0_d2018_c20240716
 
 ## Data Cleaning
 
-In order to analyze the data from our years of interest, 2008,2013,2018, we filtered the csv files to only include events that involved wind since that was what was of interest to us. Since we were only looking at between wind event devastation and  time, location, and wind magnitude we removed all the columns that included data that did not contribute to these categories. There was a lot of missing data so in order to deal with that we removed all rows that had an NA in the columns of event type, state, month, magnitude and latitude because these columns were important when making the model. In addition if there were NA values in any of the devastation columns we replaced it with the value of 0 and made the assumption that if the value was not filled out no damage or injuries occurred. 
+In order to analyze the data from our years of interest, 2008,2013,2018, we filtered the csv files to only include events that involved wind since that was what was of interest to us. Since we were only looking at between wind event devastation and  time, location, and wind magnitude we removed all the columns that included data that did not contribute to these categories. There was a lot of missing data so in order to deal with that we removed all rows that had an NA in the columns of event type, state, month, magnitude and latitude because these columns were important when making the model. In addition if there were NA values in any of the devastation columns we replaced it with the value of 0 and made the assumption that if the value was not filled out no damage or injuries occurred.
 
 ```{r}
 clean_data = function(data) {
@@ -221,6 +221,9 @@ write.csv(combined_data,"ML_wind_data.csv", row.names = FALSE)
 
 ## Data Visualizations
 
+**Wind Devastation Categorization**
+Our first set of plots were created to visualize the wind devastation categorization created to quantify extreme wind events based on deaths, injuries, and damages as mentioned above. The distribution of wind devastation is then broken down by year, month, and event type as some of our predictor variables.
+
 ```{r}
 data <- read.csv("ML_wind_data.csv")
 
@@ -230,7 +233,7 @@ library(ggplot2)
 ```{r}
 ggplot(data, aes(x = scaled_aggregate)) +
   geom_histogram(fill = "darkmagenta", color = "black") + 
-  labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Distributed Aggregate\nStatistic", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
+  labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Wind Devastation\nCategorization", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "The majority of events had no devastation followed by\nminimal devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -244,7 +247,7 @@ ggplot(data, aes(x = scaled_aggregate)) +
 ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
                  alpha = 0.6, position = "dodge", boundary = 0, color = "black") +  
-  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
+  scale_fill_manual(values = c("2018" = "blue", "2008" = "red", "2013" = "green")) +    labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by year", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle  = "Distribution by years are pretty similar but 2008 has the\nmost devastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -259,7 +262,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(YEAR))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
+                 alpha = 0.6, position = "dodge", boundary = 0)   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Events during summer months appear to cause the most\ndevastation.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 21, face = "bold"), 
     plot.subtitle = element_text(size = 17), 
@@ -274,7 +277,7 @@ ggplot(data, aes(x = scaled_aggregate, fill = factor(MONTH_NAME))) +
 ```{r}
 ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
   geom_histogram(binwidth = (max(data$scaled_aggregate, na.rm = TRUE) - min(data$scaled_aggregate, na.rm = TRUE)) / 15, 
-                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Scaled Aggregate", y = "Count", fill = "Year", title = "Histogram of the Aggregate Statistics\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
+                 alpha = 0.6, position = "dodge", boundary = 0, color = "black")   + labs(x = "Wind Devastation Categorization", y = "Count", fill = "Year", title = "Histogram of the Devastation Categorization\ngrouped by event type", caption = "Data from NOAA storm events database from 2008, 2013, and 2018", subtitle = "Majority of the data is from thunderstorm wind events.") +
   theme_minimal() +
   theme(plot.title = element_text(size = 19, face = "bold"), 
     plot.subtitle = element_text(size = 15), 
@@ -285,6 +288,303 @@ ggplot(data, aes(x = scaled_aggregate, fill = EVENT_TYPE)) +
     legend.text = element_text(size = 10),
     legend.title = element_text(size = 13)) 
 ```
+
+These plots show that no devastation is the most common, then minimal and most devastation. With aggregation, the higher 4 categories have similar trends in year, month, and event type with more wind devastation occurring in the summer and 2008 and the even type being mostly thunderstorm wind. However, the no devastation category has a higher frequency in 2018 with some marine thunderstorm wind events also more in the summer months. These trends can be used in the machine learning model for extreme wind event devastation prediction.
+
+**Predictor Variables**
+Our second set of plots were created to visualize the machine learning model predictors to assess trends. The predictor variables used were state, month, wind speed, and year.
+
+```{r}
+ggplot(data, aes(x = STATE)) +
+  geom_bar(fill = "deepskyblue1", color = "black") +
+  labs(title = "Number of Extreme Wind Events by State", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "There is state-to-state variability of extreme wind event\noccurrences.",
+    x = "U.S. State",
+    y = "Number of Extreme Wind Events") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 6.5, 
+      face = "bold", angle = 55, hjust = 1), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+data$MONTH_NAME <- factor(data$MONTH_NAME, 
+                          levels = c("January", "February", 
+                                     "March", "April", "May", 
+                                     "June", "July", "August", "September", "October", 
+                                     "November", "December"))
+
+ggplot(data, aes(x = MONTH_NAME)) +
+  geom_bar(fill = "deepskyblue2", color = "black") +
+  labs(title = "Number of Extreme Wind Events by Month", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Summer months have higher occurrences of extreme\nwind events.",
+    x = "Month",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17, angle = 45, hjust = 1), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+ggplot(data, aes(x = MAGNITUDE)) +
+  geom_histogram(binwidth = 10, fill = "deepskyblue3", color = "black") +
+  labs(title = "Histogram of Extreme Wind Events by\nWind Speed", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+    subtitle = "A wind speed of 50 knots is the most common in\nextreme wind events.",
+    x = "Magnitude - Wind Speed (knots)",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+data$YEAR <- as.factor(data$YEAR)
+
+ggplot(data, aes(x = YEAR)) +
+  geom_bar(fill = "deepskyblue4", color = "black") +
+  labs(title = "Number of Extreme Wind Events by Year", caption = "Data from NOAA storm events database",
+    subtitle = "2008 has a slightly higher occurrence of extreme wind\nevents.",
+    x = "Year",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 19), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+These plots show more extreme wind events in midwestern and some southern states, in summer months and 2008 as seen previously, and with wind speeds around 50 knots ranging from 0 to 120 knots. Overall these variables will be useful predictors for our machine learning model.
+
+**Variables in Wind Devastation Categorization**: Zero Counts and Non-Zero Frequencies
+
+The variables in the wind devastation categorization (damages, injuries, and death) have high counts of zeros. Thus, to better visualize our data, for our third set of plots we visualized the counts of zero and non-zero data, and then plotted distributions of the non-zero values.
+
+```{r}
+#make category
+data$DAMAGE_CROPS_cat <- ifelse(data$DAMAGE_CROPS == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = DAMAGE_CROPS_cat)) +
+  geom_bar(fill = "coral1", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Crop Damage", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Most extreme weather events have zero crop damage.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_DAMAGE_CROPS <- data[data$DAMAGE_CROPS > 0, ]
+
+ggplot(non_zero_DAMAGE_CROPS, aes(x = DAMAGE_CROPS)) +
+  geom_histogram(binwidth = 10, fill = "coral3", color = "black") +
+  labs(title = "Histogram of Non-Zero Crop Damage From\nExtreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low crop damage costs due to\nextreme weather events.",
+    x = "Crop Damage (in thousands of dollars)",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+#make category
+data$DAMAGE_PROPERTY_cat <- ifelse(data$DAMAGE_PROPERTY == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = DAMAGE_PROPERTY_cat)) +
+  geom_bar(fill = "darkorchid1", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Property\nDamage", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "More extreme weather events have zero property\ndamage than non-zero.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_DAMAGE_PROPERTY <- data[data$DAMAGE_PROPERTY > 0, ]
+
+ggplot(non_zero_DAMAGE_PROPERTY, aes(x = DAMAGE_PROPERTY)) +
+  geom_histogram(fill = "darkorchid3", color = "black") +
+  labs(title = "Histogram of Non-Zero Property Damage\nFrom Extreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low property damage costs due to\nextreme weather events.",
+    x = "Property Damage (in thousands of dollars)",
+    y = "Frequency") +
+  scale_x_log10() +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+#make category
+data$INJURIES_INDIRECT_cat <- ifelse(data$INJURIES_INDIRECT == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = INJURIES_INDIRECT_cat)) +
+  geom_bar(fill = "darkseagreen1", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Indirect\nInjuries", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Most extreme weather events have zero indirect injuries.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_INJURIES_INDIRECT <- data[data$INJURIES_INDIRECT > 0, ]
+
+ggplot(non_zero_INJURIES_INDIRECT, aes(x = INJURIES_INDIRECT)) +
+  geom_histogram(binwidth = 1, fill = "darkseagreen3", color = "black") +
+  labs(title = "Histogram of Non-Zero Indirect Injuries From\nExtreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low indirect injuries due to extreme\nweather events.",
+    x = "Indirect Injuries",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+#make category
+data$INJURIES_DIRECT_cat <- ifelse(data$INJURIES_DIRECT == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = INJURIES_DIRECT_cat)) +
+  geom_bar(fill = "brown2", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Direct Injuries", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Most extreme weather events have zero direct injuries.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_INJURIES_DIRECT <- data[data$INJURIES_DIRECT > 0, ]
+
+ggplot(non_zero_INJURIES_DIRECT, aes(x = INJURIES_DIRECT)) +
+  geom_histogram(binwidth = 1, fill = "brown4", color = "black") +
+  labs(title = "Histogram of Non-Zero Direct Injuries From\nExtreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low direct injuries due to extreme\nweather events.",
+    x = "Direct Injuries",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+#make category
+data$DEATHS_INDIRECT_cat <- ifelse(data$DEATHS_INDIRECT == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = DEATHS_INDIRECT_cat)) +
+  geom_bar(fill = "cornsilk1", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Indirect\nDeaths", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Most extreme weather events have zero indirect deaths.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_DEATHS_INDIRECT <- data[data$DEATHS_INDIRECT > 0, ]
+
+ggplot(non_zero_DEATHS_INDIRECT, aes(x = DEATHS_INDIRECT)) +
+  geom_histogram(binwidth = 1, fill = "cornsilk3", color = "black") +
+  labs(title = "Histogram of Non-Zero Indirect Deaths From\nExtreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low indirect deaths due to extreme\nweather events.",
+    x = "Indirect Deaths",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+```{r}
+#make category
+data$DEATHS_DIRECT_cat <- ifelse(data$DEATHS_DIRECT == 0, "Zero", "Non-Zero")
+
+ggplot(data, aes(x = DEATHS_DIRECT_cat)) +
+  geom_bar(fill = "darkolivegreen3", color = "black") +
+  labs(title = "Counts of Non-Zero vs. Zero Direct Deaths", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Most extreme weather events have zero direct deaths.",
+    y = "Count") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_blank(), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+
+#remove zeros
+non_zero_DEATHS_DIRECT <- data[data$DEATHS_DIRECT > 0, ]
+
+ggplot(non_zero_DEATHS_DIRECT, aes(x = DEATHS_DIRECT)) +
+  geom_histogram(binwidth = 1, fill = "darkolivegreen", color = "black") +
+  labs(title = "Histogram of Non-Zero Direct Deaths From\nExtreme Wind", caption = "Data from NOAA storm events database from 2008, 2013, and 2018",
+  subtitle = "Generally, there are low direct deaths due to extreme\nweather events.",
+    x = "Direct Deaths",
+    y = "Frequency") +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 21, face = "bold"), 
+    plot.subtitle = element_text(size = 17), 
+    axis.title.x = element_text(size = 20), 
+    axis.title.y = element_text(size = 19), 
+    axis.text.x = element_text(size = 17), 
+    axis.text.y = element_text(size = 17))
+```
+
+In all six of these variables used in wind devastation categorization, there are more zero values, so plotting non-zero distributions was insightful. These variables show low levels of damages, injuries, and deaths in a hyperbolic shape with some outliers. Trends in these high, non-zero values are useful for our model.
 
 ## Programming Paradigms
 
